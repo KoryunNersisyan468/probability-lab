@@ -1,9 +1,12 @@
+import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import {
   X,
   Calculator,
   Sparkles,
+  TrendingUp,
   Lightbulb,
+  CheckCircle2,
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 
@@ -64,7 +67,7 @@ export const ProbabilityPanel: React.FC = () => {
               type="button"
               onClick={closeProbabilityModal}
               className="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-500 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors shrink-0 cursor-pointer min-h-[40px] min-w-[40px] flex items-center justify-center"
-              aria-label="Close modal"
+              aria-label={t('close')}
             >
               <X className="w-5 h-5" />
             </button>
@@ -82,7 +85,8 @@ export const ProbabilityPanel: React.FC = () => {
               </div>
               {theoreticalFraction && (
                 <div className="text-xs text-indigo-700 dark:text-indigo-300 font-mono-math">
-                  Fraction: <span className="font-bold">{theoreticalFraction}</span>
+                  {language === 'hy' ? 'Կոտորակ՝ ' : language === 'ru' ? 'Дробь: ' : 'Fraction: '}
+                  <span className="font-bold">{theoreticalFraction}</span>
                 </div>
               )}
             </div>
@@ -97,7 +101,11 @@ export const ProbabilityPanel: React.FC = () => {
               </div>
               <div className="text-xs text-cyan-700 dark:text-cyan-300 font-mono-math">
                 {sampleSize && sampleSize > 0
-                  ? `Sample Size: ${sampleSize} trials`
+                  ? language === 'hy'
+                    ? `Ընտրանքի չափ՝ ${sampleSize} փորձ`
+                    : language === 'ru'
+                    ? `Размер выборки: ${sampleSize} испытаний`
+                    : `Sample Size: ${sampleSize} trials`
                   : language === 'hy'
                   ? 'Տվյալներ չկան (կատարեք փորձ)'
                   : language === 'ru'
@@ -177,7 +185,7 @@ export const ProbabilityPanel: React.FC = () => {
             <button
               type="button"
               onClick={closeProbabilityModal}
-              className="w-full sm:w-auto px-6 py-3 rounded-xl bg-slate-900 dark:bg-indigo-600 hover:bg-slate-800 dark:hover:bg-indigo-700 text-white font-bold text-xs sm:text-sm shadow-md transition-all cursor-pointer min-h-[44px]"
+              className="w-full sm:w-auto px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs sm:text-sm shadow-md transition-all cursor-pointer min-h-[44px]"
             >
               {language === 'hy' ? 'Հասկացա (Փակել)' : language === 'ru' ? 'Понятно (Закрыть)' : 'Understood (Close)'}
             </button>

@@ -6,6 +6,7 @@ import {
   ShieldCheck,
   ShieldAlert,
   RotateCcw,
+  Sparkles,
   Zap,
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
@@ -179,10 +180,10 @@ export const PasswordGame: React.FC = () => {
               className="w-full accent-cyan-500 h-2 bg-slate-200 dark:bg-slate-800 rounded-lg cursor-pointer"
             />
             <div className="flex justify-between text-[10px] text-slate-500 dark:text-slate-400 font-mono-math">
-              <span>2 (Easy)</span>
-              <span>3 (Normal)</span>
-              <span>4 (Hard)</span>
-              <span>5 (Extreme)</span>
+              <span>2 ({language === 'hy' ? 'Հեշտ' : language === 'ru' ? 'Легко' : 'Easy'})</span>
+              <span>3 ({language === 'hy' ? 'Միջին' : language === 'ru' ? 'Средне' : 'Normal'})</span>
+              <span>4 ({language === 'hy' ? 'Բարդ' : language === 'ru' ? 'Сложно' : 'Hard'})</span>
+              <span>5 ({language === 'hy' ? 'Էքստրեմալ' : language === 'ru' ? 'Экстрим' : 'Extreme'})</span>
             </div>
           </div>
 

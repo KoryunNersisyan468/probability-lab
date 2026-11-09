@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
+import { motion } from 'motion/react';
 import {
+  Dices,
   BarChart2,
+  RotateCcw,
   TrendingUp,
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';

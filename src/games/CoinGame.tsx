@@ -1,7 +1,9 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import {
+  Coins,
   BarChart2,
   TrendingUp,
+  Zap,
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { simulateCoinFlips } from '../utils/probability';
@@ -256,25 +258,33 @@ export const CoinGame: React.FC = () => {
             {simSummary && (
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-center">
-                  <span className="text-[11px] text-slate-500 dark:text-slate-400 block">{t('heads')} Ratio</span>
+                  <span className="text-[11px] text-slate-500 dark:text-slate-400 block">
+                    {t('heads')} ({language === 'hy' ? 'Հարաբերակցություն' : language === 'ru' ? 'Доля' : 'Ratio'})
+                  </span>
                   <span className="text-base font-bold font-mono-math text-amber-600 dark:text-amber-400">
                     {(simSummary.headsRatio * 100).toFixed(2)}%
                   </span>
                 </div>
                 <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-center">
-                  <span className="text-[11px] text-slate-500 dark:text-slate-400 block">{t('tails')} Ratio</span>
+                  <span className="text-[11px] text-slate-500 dark:text-slate-400 block">
+                    {t('tails')} ({language === 'hy' ? 'Հարաբերակցություն' : language === 'ru' ? 'Доля' : 'Ratio'})
+                  </span>
                   <span className="text-base font-bold font-mono-math text-indigo-600 dark:text-indigo-400">
                     {(simSummary.tailsRatio * 100).toFixed(2)}%
                   </span>
                 </div>
                 <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-center">
-                  <span className="text-[11px] text-slate-500 dark:text-slate-400 block">{t('heads')} Count</span>
+                  <span className="text-[11px] text-slate-500 dark:text-slate-400 block">
+                    {t('heads')} ({language === 'hy' ? 'Քանակ' : language === 'ru' ? 'Количество' : 'Count'})
+                  </span>
                   <span className="text-base font-bold font-mono-math text-slate-900 dark:text-white">
                     {simSummary.heads.toLocaleString()}
                   </span>
                 </div>
                 <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-center">
-                  <span className="text-[11px] text-slate-500 dark:text-slate-400 block">{t('tails')} Count</span>
+                  <span className="text-[11px] text-slate-500 dark:text-slate-400 block">
+                    {t('tails')} ({language === 'hy' ? 'Քանակ' : language === 'ru' ? 'Количество' : 'Count'})
+                  </span>
                   <span className="text-base font-bold font-mono-math text-slate-900 dark:text-white">
                     {simSummary.tails.toLocaleString()}
                   </span>
@@ -297,11 +307,20 @@ export const CoinGame: React.FC = () => {
                     }}
                   />
                   <Legend wrapperStyle={{ fontSize: '11px', paddingTop: '10px' }} />
-                  <ReferenceLine y={0.5} stroke="#ef4444" strokeDasharray="4 4" label={{ value: 'Theory (50%)', fill: '#ef4444', fontSize: 10 }} />
+                  <ReferenceLine
+                    y={0.5}
+                    stroke="#ef4444"
+                    strokeDasharray="4 4"
+                    label={{
+                      value: language === 'hy' ? 'Տեսություն (50%)' : language === 'ru' ? 'Теория (50%)' : 'Theory (50%)',
+                      fill: '#ef4444',
+                      fontSize: 10,
+                    }}
+                  />
                   <Line
                     type="monotone"
                     dataKey="ratio"
-                    name={`${t('heads')} Ratio`}
+                    name={language === 'hy' ? `${t('heads')} (Հարաբերակցություն)` : language === 'ru' ? `${t('heads')} (Доля)` : `${t('heads')} Ratio`}
                     stroke="#6366f1"
                     strokeWidth={2}
                     dot={false}

@@ -359,12 +359,16 @@ export const ThreeDoorsGame: React.FC = () => {
         <div>
           <div className="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400 truncate">{language === 'hy' ? 'Մնալ %' : language === 'ru' ? 'Остаться %' : 'Stay %'}</div>
           <div className="text-xl sm:text-2xl font-bold text-amber-600 dark:text-amber-400 font-mono-math">{stayRate}%</div>
-          <div className="text-[10px] text-slate-400">{stats.threeDoors.stayWins} wins</div>
+          <div className="text-[10px] text-slate-400">
+            {stats.threeDoors.stayWins} {language === 'hy' ? 'հաղթանակ' : language === 'ru' ? 'побед' : 'wins'}
+          </div>
         </div>
         <div>
           <div className="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400 truncate">{language === 'hy' ? 'Փոխել %' : language === 'ru' ? 'Сменить %' : 'Switch %'}</div>
           <div className="text-xl sm:text-2xl font-bold text-indigo-600 dark:text-cyan-400 font-mono-math">{switchRate}%</div>
-          <div className="text-[10px] text-slate-400">{stats.threeDoors.switchWins} wins</div>
+          <div className="text-[10px] text-slate-400">
+            {stats.threeDoors.switchWins} {language === 'hy' ? 'հաղթանակ' : language === 'ru' ? 'побед' : 'wins'}
+          </div>
         </div>
       </div>
 

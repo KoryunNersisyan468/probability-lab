@@ -1,8 +1,11 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import {
+  FlaskConical,
   Play,
   TrendingUp,
+  FileSpreadsheet,
   CheckCircle2,
+  HelpCircle,
   BarChart3,
   Dices,
   Coins,
@@ -30,7 +33,7 @@ import {
 } from 'recharts';
 
 export const ExperimentLabPage: React.FC = () => {
-  const { t, language, isDark } = useApp();
+  const { t, language, isDark, notify } = useApp();
 
   const [activeTab, setActiveTab] = useState<'monty' | 'coin' | 'dice' | 'password' | 'weather'>('monty');
   const [trialCount, setTrialCount] = useState<number>(1000);
@@ -187,6 +190,13 @@ export const ExperimentLabPage: React.FC = () => {
               )}% of rolls (theory 16.67%), highest among all outcomes.`,
       });
     }
+
+    notify({
+      type: 'success',
+      title: language === 'hy' ? 'Վարկածը ստուգվեց' : language === 'ru' ? 'Гипотеза проверена' : 'Hypothesis Evaluated',
+      description: language === 'hy' ? 'Վիճակագրական ընտրանքն ավարտվեց' : language === 'ru' ? 'Статистическая выборка завершена' : 'Statistical sample analysis complete.',
+      icon: '🔬',
+    });
   };
 
   const tabs = [
@@ -204,7 +214,7 @@ export const ExperimentLabPage: React.FC = () => {
           <div className="flex items-center gap-2 text-[10px] sm:text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-cyan-400 font-mono-math">
             <span>{language === 'hy' ? 'ԳԻՏԱԿԱՆ ԼԱԲՈՐԱՏՈՐԻԱ' : language === 'ru' ? 'НАУЧНАЯ ЛАБОРАТОРИЯ' : 'EMPIRICAL LAB'}</span>
             <span>•</span>
-            <span>STEM SIMULATOR</span>
+            <span>{language === 'hy' ? 'STEM ՍԻՄՈՒԼՅԱՏՈՐ' : language === 'ru' ? 'STEM СИМУЛЯТОР' : 'STEM SIMULATOR'}</span>
           </div>
           <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-slate-900 dark:text-white mt-1">
             {t('labHeading')}
@@ -387,7 +397,7 @@ export const ExperimentLabPage: React.FC = () => {
           <div className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-cyan-400 font-mono-math">
             <span>{language === 'hy' ? 'ՔԱՅԼ 07' : language === 'ru' ? 'ШАГ 07' : 'STEP 07'}</span>
             <span>•</span>
-            <span>HYPOTHESIS RIGOR</span>
+            <span>{language === 'hy' ? 'ՎԱՐԿԱԾԻ ԽՍՏՈՒԹՅՈՒՆ' : language === 'ru' ? 'СТРОГОСТЬ ГИПОТЕЗЫ' : 'HYPOTHESIS RIGOR'}</span>
           </div>
           <h3 className="text-lg sm:text-xl font-extrabold text-slate-900 dark:text-white">
             {t('hypothesisTesting')}
@@ -411,7 +421,7 @@ export const ExperimentLabPage: React.FC = () => {
             }`}
           >
             <div className="text-sm font-bold text-slate-900 dark:text-white">
-              H₁: Monty Hall Switch Advantage
+              {language === 'hy' ? 'H₁: Մոնթի Հոլլի Դռների Առավելություն' : language === 'ru' ? 'H₁: Преимущество смены двери Монти Холла' : 'H₁: Monty Hall Switch Advantage'}
             </div>
             <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">
               {language === 'hy'
@@ -431,7 +441,7 @@ export const ExperimentLabPage: React.FC = () => {
             }`}
           >
             <div className="text-sm font-bold text-slate-900 dark:text-white">
-              H₂: Two Dice Peak at 7
+              {language === 'hy' ? 'H₂: 2 Զառերի Գագաթը 7 Գումարում' : language === 'ru' ? 'H₂: Пик суммы двух костей в точке 7' : 'H₂: Two Dice Peak at 7'}
             </div>
             <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">
               {language === 'hy'
@@ -455,7 +465,9 @@ export const ExperimentLabPage: React.FC = () => {
           <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-950 border border-indigo-200 dark:border-indigo-500/20 space-y-2">
             <div className="flex items-center gap-2 text-xs font-bold font-mono-math text-emerald-600 dark:text-emerald-400">
               <CheckCircle2 className="w-4 h-4" />
-              <span>VALIDATED (p-value = {hypothesisResult.pValue})</span>
+              <span>
+                {language === 'hy' ? 'ՀԱՍՏԱՏՎԱԾ Է' : language === 'ru' ? 'ПОДТВЕРЖДЕНО' : 'VALIDATED'} (p-value = {hypothesisResult.pValue})
+              </span>
             </div>
             <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
               {hypothesisResult.description}

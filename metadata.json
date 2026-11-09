@@ -1,4 +1,5 @@
 {
   "name": "The Probability Lab",
-  "description": "An interactive educational STEM platform and laboratory for exploring probability, mathematical experiments, games, and data analysis."
+  "description": "An interactive educational STEM platform and laboratory for exploring probability, mathematical experiments, games, and data analysis.",
+  "requestFramePermissions": []
 }

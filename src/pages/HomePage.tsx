@@ -1,6 +1,6 @@
-
+import React, { useState } from 'react';
 import { Link } from 'react-router';
-import { motion } from 'motion/react';
+import { motion, AnimatePresence } from 'motion/react';
 import {
   Sparkles,
   ArrowRight,
@@ -9,11 +9,15 @@ import {
   FlaskConical,
   BarChart2,
   Gamepad2,
+  ChevronDown,
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 
+import { ORDERED_GAMES, getGameBadge } from '../utils/gamesConfig';
+
 export const HomePage: React.FC = () => {
   const { t, language } = useApp();
+  const [gamesExpanded, setGamesExpanded] = useState(false);
 
   const journeySteps = [
     { num: '01', titleKey: 'journeyStep1', icon: '📖' },
@@ -26,71 +30,15 @@ export const HomePage: React.FC = () => {
     { num: '08', titleKey: 'journeyStep8', icon: '💡' },
   ];
 
-  const games = [
-    {
-      id: 'doors',
-      num: '01',
-      title: t('gameThreeDoorsTitle'),
-      concept: t('gameThreeDoorsConcept'),
-      desc: t('gameThreeDoorsDesc'),
-      icon: '🚪',
-      badge: language === 'hy' ? 'Մոնթի Հոլի Պարադոքս' : language === 'ru' ? 'Парадокс Монти Холла' : 'Monty Hall Paradox',
-    },
-    {
-      id: 'password',
-      num: '02',
-      title: t('gamePasswordTitle'),
-      concept: t('gamePasswordConcept'),
-      desc: t('gamePasswordDesc'),
-      icon: '🔑',
-      badge: language === 'hy' ? 'Կոմբինատորիկա Nᴸ' : language === 'ru' ? 'Комбинаторика Nᴸ' : 'Combinatorics Nᴸ',
-    },
-    {
-      id: 'cards',
-      num: '03',
-      title: t('gameCardsTitle'),
-      concept: t('gameCardsConcept'),
-      desc: t('gameCardsDesc'),
-      icon: '🃏',
-      badge: language === 'hy' ? '52-քարտանոց Կապուկ' : language === 'ru' ? 'Колода из 52 карт' : '52-Card Deck',
-    },
-    {
-      id: 'dice',
-      num: '04',
-      title: t('gameDiceTitle'),
-      concept: t('gameDiceConcept'),
-      desc: t('gameDiceDesc'),
-      icon: '🎲',
-      badge: language === 'hy' ? 'Բաշխում և Գումարներ' : language === 'ru' ? 'Распределение и суммы' : 'Distribution & Sums',
-    },
-    {
-      id: 'coin',
-      num: '05',
-      title: t('gameCoinTitle'),
-      concept: t('gameCoinConcept'),
-      desc: t('gameCoinDesc'),
-      icon: '🪙',
-      badge: language === 'hy' ? 'Մեծ Թվերի Օրենք' : language === 'ru' ? 'Закон больших чисел' : 'Law of Large Numbers',
-    },
-    {
-      id: 'weather',
-      num: '06',
-      title: t('gameWeatherTitle'),
-      concept: t('gameWeatherConcept'),
-      desc: t('gameWeatherDesc'),
-      icon: '☀️',
-      badge: language === 'hy' ? 'Հավանականային Կանխատեսում' : language === 'ru' ? 'Вероятностный прогноз' : 'Probabilistic Forecast',
-    },
-    {
-      id: 'quiz',
-      num: '07',
-      title: t('gameQuizTitle'),
-      concept: t('gameQuizConcept'),
-      desc: t('gameQuizDesc'),
-      icon: '🧠',
-      badge: language === 'hy' ? '10 Փորձառու Հարցեր' : language === 'ru' ? '10 Мастер-вопросов' : '10 Master Challenges',
-    },
-  ];
+  const games = ORDERED_GAMES.map(g => ({
+    id: g.id,
+    num: g.num,
+    title: t(g.titleKey),
+    concept: t(g.conceptKey),
+    desc: t(g.descKey),
+    icon: g.icon,
+    badge: getGameBadge(g, language),
+  }));
 
   const getStemBadgeText = () => {
     if (language === 'hy') return 'ՀԱՅԱՍՏԱՆԻ STEM & ՄԱԹԵՄԱՏԻԿԱԿԱՆ ԿՐԹԱԿԱՆ ՀԱՐԹԱԿ';
@@ -135,7 +83,7 @@ export const HomePage: React.FC = () => {
 
         {/* Titles */}
         <div className="space-y-2">
-          <h1 className="text-2xl xs:text-3xl sm:text-5xl md:text-6xl font-black tracking-tight text-slate-900 dark:text-white leading-tight break-words">
+          <h1 className="page-title font-black tracking-tight text-slate-900 dark:text-white leading-tight break-words">
             {language === 'hy' ? (
               <>
                 <span className="block text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-violet-600 to-cyan-600 dark:from-cyan-400 dark:via-indigo-300 dark:to-purple-400">
@@ -231,64 +179,91 @@ export const HomePage: React.FC = () => {
         </div>
       </section>
 
-      {/* 7 Interactive Probability Games Grid */}
+      {/* Compact Interactive Probability Games Section with ONE Expandable Button */}
       <section className="space-y-4 sm:space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
-          <div>
-            <span className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 font-mono-math">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 p-5 sm:p-6 rounded-2xl bg-white dark:bg-[#151A21] border border-slate-200 dark:border-[#27303B] shadow-xs">
+          <div className="space-y-1">
+            <span className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-cyan-400 font-mono-math">
               {language === 'hy' ? 'ՓՈՐՁԱՌՈՒԹՅՈՒՆ ԵՎ ԲԱՑԱՀԱՅՏՈՒՄ' : language === 'ru' ? 'ОПЫТ И ОТКРЫТИЯ' : 'EXPERIENCE & DISCOVER'}
             </span>
-            <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-slate-900 dark:text-white mt-0.5">
-              {t('exploreGames')}
+            <h2 className="section-title font-extrabold text-slate-900 dark:text-white">
+              {language === 'hy' ? 'Խաղեր' : language === 'ru' ? 'Игры' : 'Games'}
             </h2>
-            <p className="text-slate-600 dark:text-slate-400 text-xs sm:text-sm mt-1">{t('heroIntro')}</p>
+            <p className="text-slate-600 dark:text-slate-400 text-xs sm:text-sm max-w-2xl">
+              {t('heroIntro')}
+            </p>
           </div>
 
-          <Link
-            to="/games"
-            className="flex items-center gap-1.5 text-xs font-bold text-indigo-600 dark:text-cyan-400 hover:underline transition-colors w-fit"
-          >
-            <span>{t('viewAll')}</span>
-            <ArrowRight className="w-3.5 h-3.5" />
-          </Link>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-          {games.map(g => (
-            <motion.div
-              key={g.id}
-              whileHover={{ y: -5 }}
-              className="p-5 sm:p-6 rounded-2xl bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 flex flex-col justify-between space-y-4 sm:space-y-5 transition-all hover:border-indigo-500/50 shadow-xs dark:shadow-lg relative overflow-hidden"
+          <div className="shrink-0 flex items-center gap-2">
+            {/* The ONE Expandable Button with rotating indicator */}
+            <button
+              type="button"
+              onClick={() => setGamesExpanded(!gamesExpanded)}
+              aria-expanded={gamesExpanded}
+              className="flex items-center gap-2.5 px-5 py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-700 hover:to-cyan-700 text-white font-bold text-xs sm:text-sm shadow-md shadow-indigo-600/25 transition-all cursor-pointer min-h-[44px]"
             >
-              <div className="space-y-3">
-                <div className="flex items-center justify-between gap-2">
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center text-xl sm:text-2xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 shadow-xs shrink-0">
-                    {g.icon}
-                  </div>
-                  <span className="text-[10px] sm:text-[11px] font-mono-math font-bold px-2 sm:px-2.5 py-1 rounded-full bg-indigo-50 dark:bg-indigo-500/10 border border-indigo-200 dark:border-indigo-500/30 text-indigo-700 dark:text-indigo-300 truncate max-w-[180px]">
-                    {g.badge}
-                  </span>
-                </div>
-
-                <div>
-                  <span className="text-[10px] font-mono-math uppercase tracking-wider text-slate-500 dark:text-slate-400 font-bold block">
-                    {language === 'hy' ? 'ԽԱՂ' : language === 'ru' ? 'ИГРА' : 'GAME'} {g.num} • {g.concept}
-                  </span>
-                  <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white mt-0.5">{g.title}</h3>
-                  <p className="text-xs text-slate-600 dark:text-slate-300 mt-1 leading-relaxed">{g.desc}</p>
-                </div>
-              </div>
-
-              <Link
-                to={`/games?game=${g.id}`}
-                className="w-full py-2.5 sm:py-3 px-4 rounded-xl bg-slate-50 dark:bg-slate-950 hover:bg-indigo-600 hover:text-white dark:hover:bg-indigo-600 border border-slate-200 dark:border-slate-800 hover:border-indigo-500 text-slate-800 dark:text-slate-200 font-bold text-xs flex items-center justify-between transition-all min-h-[44px]"
+              <Gamepad2 className="w-4 h-4 shrink-0" />
+              <span>{gamesExpanded ? t('hideAllGames') : t('exploreAllGames')}</span>
+              <motion.div
+                animate={{ rotate: gamesExpanded ? 180 : 0 }}
+                transition={{ duration: 0.25 }}
+                className="flex items-center justify-center"
               >
-                <span>{language === 'hy' ? 'Բացել Խաղը' : language === 'ru' ? 'Открыть игру' : 'Launch Lab'}</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </Link>
-            </motion.div>
-          ))}
+                <ChevronDown className="w-4 h-4 shrink-0" />
+              </motion.div>
+            </button>
+          </div>
         </div>
+
+        {/* Collapsible Games Grid directly below the button */}
+        <AnimatePresence>
+          {gamesExpanded && (
+            <motion.div
+              initial={{ opacity: 0, height: 0, y: -10 }}
+              animate={{ opacity: 1, height: 'auto', y: 0 }}
+              exit={{ opacity: 0, height: 0, y: -10 }}
+              transition={{ duration: 0.3, ease: 'easeInOut' }}
+              className="overflow-hidden"
+            >
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 pt-2">
+                {games.map(g => (
+                  <motion.div
+                    key={g.id}
+                    whileHover={{ y: -4 }}
+                    className="p-5 sm:p-6 rounded-2xl bg-white dark:bg-[#151A21] border border-slate-200 dark:border-[#27303B] flex flex-col justify-between space-y-4 sm:space-y-5 transition-all hover:border-indigo-500/50 shadow-xs dark:shadow-lg relative overflow-hidden"
+                  >
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between gap-2">
+                        <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center text-xl sm:text-2xl bg-slate-50 dark:bg-[#0F141C] border border-slate-200 dark:border-[#27303B] shadow-xs shrink-0">
+                          {g.icon}
+                        </div>
+                        <span className="text-[10px] sm:text-[11px] font-mono-math font-bold px-2 sm:px-2.5 py-1 rounded-full bg-indigo-50 dark:bg-indigo-500/10 border border-indigo-200 dark:border-indigo-500/30 text-indigo-700 dark:text-indigo-300 truncate max-w-[180px]">
+                          {g.badge}
+                        </span>
+                      </div>
+
+                      <div>
+                        <span className="text-[10px] font-mono-math uppercase tracking-wider text-slate-500 dark:text-slate-400 font-bold block">
+                          {language === 'hy' ? 'ԽԱՂ' : language === 'ru' ? 'ИГРА' : 'GAME'} {g.num} • {g.concept}
+                        </span>
+                        <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white mt-0.5">{g.title}</h3>
+                        <p className="text-xs text-slate-600 dark:text-slate-300 mt-1 leading-relaxed">{g.desc}</p>
+                      </div>
+                    </div>
+
+                    <Link
+                      to={`/games?game=${g.id}`}
+                      className="w-full py-2.5 sm:py-3 px-4 rounded-xl bg-slate-50 dark:bg-[#0F141C] hover:bg-indigo-600 hover:text-white dark:hover:bg-indigo-600 border border-slate-200 dark:border-[#27303B] hover:border-indigo-500 text-slate-800 dark:text-slate-200 font-bold text-xs flex items-center justify-between transition-all min-h-[44px]"
+                    >
+                      <span>{t('startGame')}</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </Link>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </section>
 
       {/* Core Laboratory Features */}

@@ -128,3 +128,16 @@ export interface ProbabilityExplanation {
   recommendation?: string;
   breakdown?: Array<{ label: string; value: number; color?: string; note?: string }>;
 }
+
+export type ToastType = 'success' | 'info' | 'achievement' | 'warning' | 'error';
+
+export interface ToastNotification {
+  id: string;
+  type: ToastType;
+  title: string;
+  description?: string;
+  icon?: string;
+  duration?: number;
+  createdAt: number;
+}
+

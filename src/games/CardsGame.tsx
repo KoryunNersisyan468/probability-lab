@@ -1,8 +1,11 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import {
+  Sparkles,
   BarChart2,
+  RotateCcw,
   Layers,
+  CheckCircle2,
   TrendingUp,
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
@@ -23,6 +26,7 @@ import {
   YAxis,
   Tooltip,
   Legend,
+  Cell,
 } from 'recharts';
 
 export const CardsGame: React.FC = () => {

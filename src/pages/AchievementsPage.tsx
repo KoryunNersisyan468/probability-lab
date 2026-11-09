@@ -17,7 +17,7 @@ export const AchievementsPage: React.FC = () => {
           <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400 font-mono-math">
             <span>{language === 'hy' ? 'ՆՎԱՃՈՒՄՆԵՐ ԵՎ ԿՐԾՔԱՆՇԱՆՆԵՐ' : language === 'ru' ? 'ДОСТИЖЕНИЯ И ЗНАЧКИ' : 'MILESTONES & BADGES'}</span>
             <span>•</span>
-            <span>STEM MASTERY</span>
+            <span>{language === 'hy' ? 'STEM ՎԱՐՊԵՏՈՒԹՅՈՒՆ' : language === 'ru' ? 'STEM МАСТЕРСТВО' : 'STEM MASTERY'}</span>
           </div>
           <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white mt-1">
             {t('achievementsHeading')}
